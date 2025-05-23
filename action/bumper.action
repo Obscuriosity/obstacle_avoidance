@@ -1,0 +1,8 @@
+# goal definition
+int32 bumper_id # Specify which bumper is hit
+---
+# result definition
+bool Done # action complete
+---
+# feedback definition
+float32 percent_complete
