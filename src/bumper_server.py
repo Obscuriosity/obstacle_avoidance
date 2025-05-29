@@ -58,7 +58,7 @@ class bumperServer(object):
 
 
 if __name__ == '__main__':
-    rospy.init_node('bumper_server')
+    rospy.init_node('bumpers')
     rospy.loginfo("Bumper server starting")
     bs = bumperServer(rospy.get_name())
     rospy.spin()
