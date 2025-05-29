@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # Author: Tony Willett
 # Date  : Dydd Gwener trydydd ar ugain o Fai 2025
 # Description: Node using actionlib to manage bumper behaviour.
@@ -43,7 +43,7 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            percent += 10
+            percent += 1
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
             if (percent == 100):
