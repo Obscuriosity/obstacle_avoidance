@@ -18,12 +18,12 @@ class bumperClient:
         self._ac.wait_for_server()
 
         # Subscribers:
-        self.frontL = rospy.Subscriber('bpr_lf', Bool, self.bumper_CB)
+        self.frontL = rospy.Subscriber('/bpr_lf', Bool, self.bumper_CB)
         self.frontM = rospy.Subscriber('bpr_mf', Bool, self.bumper_CB)
         self.frontR = rospy.Subscriber('bpr_lr', Bool, self.bumper_CB)
-        self.BackL = rospy.Subscriber('bpr_lb', Bool, self.bumper_CB)
-        self.BackL = rospy.Subscriber('bpr_mb', Bool, self.bumper_CB)
-        self.BackL = rospy.Subscriber('bpr_rbf', Bool, self.bumper_CB)
+        self.backL = rospy.Subscriber('bpr_lb', Bool, self.bumper_CB)
+        self.backM = rospy.Subscriber('bpr_mb', Bool, self.bumper_CB)
+        self.backR = rospy.Subscriber('bpr_rbf', Bool, self.bumper_CB)
 
     def bumper_CB(self, bump):
         rospy.loginfo("Bumper Hit")
