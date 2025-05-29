@@ -18,7 +18,7 @@ class bumperClient:
 
         # Subscribers:
         self.frontL = rospy.Subscriber('bpr_lf', Bool, self.bumperLF_CB)
-        self.frontM = rospy.Subscriber('bpr_mf', Bool, self.bumper_CB)
+        self.frontM = rospy.Subscriber('bpr_mf', Bool, self.bumperMF_CB)
         self.frontR = rospy.Subscriber('bpr_rf', Bool, self.bumper_CB)
         self.backL = rospy.Subscriber('bpr_lb', Bool, self.bumper_CB)
         self.backM = rospy.Subscriber('bpr_mb', Bool, self.bumper_CB)
