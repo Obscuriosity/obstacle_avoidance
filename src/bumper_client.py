@@ -27,12 +27,13 @@ class bumperClient:
         rospy.loginfo("bumperClient started")
 
     def bumperLF_CB(self, bump):
-        rospy.loginfo("Bumper Hit")
-        goal = obstacle_avoidance.msg.bumperGoal(bumper_id=1)
-        self._ac.send_goal(goal)
-        self._ac.wait_for_result()
-        self._ac.get_result()
-        #rospy.loginfo('Result: ', )
+        if (bump.data)
+            rospy.loginfo("Bumper Hit")
+            goal = obstacle_avoidance.msg.bumperGoal(bumper_id=1)
+            self._ac.send_goal(goal)
+            self._ac.wait_for_result()
+            self._ac.get_result()
+            #rospy.loginfo('Result: ', )
 
     def bumper_CB(self, bump):
         rospy.loginfo("Bumper Hit")
