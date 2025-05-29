@@ -27,7 +27,6 @@ class bumperServer(object):
 
     def execute_cb(self, goal):
         # helper variables
-        rospy.loginfo(id)
         r = rospy.Rate(1)
         success = True
         moving = True
