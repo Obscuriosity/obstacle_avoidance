@@ -43,18 +43,20 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            percent += 10
-            self._feedback.percent_complete = percent
-            self._as.publish_feedback(self._feedback)
-            if (percent == 100):
-                moving = False
-            # for testing, remove later
+            self.count()
             r.sleep()
 
         if success:
             self._result.Done = True
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
+
+    def count(self):
+        percent += 10
+        self._feedback.percent_complete = percent
+        self._as.publish_feedback(self._feedback)
+        if (percent == 100):
+            moving = False
 
 
 if __name__ == '__main__':
