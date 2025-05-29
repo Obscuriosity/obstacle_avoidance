@@ -37,5 +37,5 @@ class bumperClient:
 if __name__ == '__main__':
     rospy.init_node('bumper_client')
     rospy.loginfo("Bumper client starting")
-    bc = bumperClient(rospy.get_name())
+    bc = bumperClient()
     rospy.spin()
