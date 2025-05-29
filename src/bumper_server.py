@@ -46,13 +46,13 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            percent += 10
+            percent += 20
             symudol = Twist()
             symudol.angular.z = 0.4
             self.symud.publish(symudol)
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
-            if (percent == 100):
+            if (percent >= 100):
                 moving = False
             # for testing, remove later
             r.sleep()
