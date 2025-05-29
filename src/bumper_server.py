@@ -43,7 +43,7 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            self.count()
+            self.count(percent)
             r.sleep()
 
         if success:
@@ -51,7 +51,7 @@ class bumperServer(object):
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
 
-    def count(self):
+    def count(self, percent):
         percent += 10
         self._feedback.percent_complete = percent
         self._as.publish_feedback(self._feedback)
