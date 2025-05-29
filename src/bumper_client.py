@@ -36,7 +36,8 @@ class bumperClient:
             #rospy.loginfo('Result: ', )
 
     def bumper_CB(self, bump):
-        rospy.loginfo("Bumper Hit")
+        if (bump.data):
+            rospy.loginfo("Bumper Hit")
         
 
 
