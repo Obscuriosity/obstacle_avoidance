@@ -27,7 +27,6 @@ class bumperServer(object):
 
     def execute_cb(self, goal):
         # helper variables
-        id = goal
         rospy.loginfo(id)
         r = rospy.Rate(1)
         success = True
@@ -35,7 +34,7 @@ class bumperServer(object):
         percent = 0
         
         # print progress
-        #rospy.loginfo("bumper %s action started" % id)
+        rospy.loginfo("bumper action started: %s" % goal)
 
         #execute the action
         while moving:
