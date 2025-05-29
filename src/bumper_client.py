@@ -7,7 +7,7 @@ import rospy
 import math
 import actionlib
 import obstacle_avoidance.msg
-
+from std_msgs.msg import Bool
 
 class bumperClient:
     '''Bumper Client Class'''
