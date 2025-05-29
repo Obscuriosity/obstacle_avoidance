@@ -4,7 +4,6 @@
 # Description: Node to listen subscribe to bumper hits and calls bumper action client to react.
 
 import rospy
-import math
 import actionlib
 import obstacle_avoidance.msg
 from std_msgs.msg import Bool
@@ -24,6 +23,8 @@ class bumperClient:
         self.backL = rospy.Subscriber('bpr_lb', Bool, self.bumper_CB)
         self.backM = rospy.Subscriber('bpr_mb', Bool, self.bumper_CB)
         self.backR = rospy.Subscriber('bpr_rb', Bool, self.bumper_CB)
+
+        rospy.loginfo("bumperClient started")
 
     def bumper_CB(self, bump):
         rospy.loginfo("Bumper Hit")
