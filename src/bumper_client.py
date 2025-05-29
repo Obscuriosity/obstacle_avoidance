@@ -19,10 +19,10 @@ class bumperClient:
         # Subscribers:
         self.frontL = rospy.Subscriber('bpr_lf', Bool, self.bumperLF_CB)
         self.frontM = rospy.Subscriber('bpr_mf', Bool, self.bumperMF_CB)
-        self.frontR = rospy.Subscriber('bpr_rf', Bool, self.bumper_CB)
-        self.backL = rospy.Subscriber('bpr_lb', Bool, self.bumper_CB)
-        self.backM = rospy.Subscriber('bpr_mb', Bool, self.bumper_CB)
-        self.backR = rospy.Subscriber('bpr_rb', Bool, self.bumper_CB)
+        self.frontR = rospy.Subscriber('bpr_rf', Bool, self.bumperRF_CB)
+        self.backL = rospy.Subscriber('bpr_lb', Bool, self.bumperLB_CB)
+        self.backM = rospy.Subscriber('bpr_mb', Bool, self.bumperMB_CB)
+        self.backR = rospy.Subscriber('bpr_rb', Bool, self.bumperRB_CB)
 
         rospy.loginfo("bumperClient started")
 
@@ -45,12 +45,41 @@ class bumperClient:
             self._ac.wait_for_result()
             self._ac.get_result()
         
-    def bumper_CB(self, bump):
+    def bumperRF_CB(self, bump):
         if (bump.data):
-            bpr_id = 29
+            bpr_id = 3
             rospy.loginfo("Bumper %s Hit" % bpr_id)
+            goal = obstacle_avoidance.msg.bumperGoal(bumper_id=bpr_id)
+            self._ac.send_goal(goal)
+            self._ac.wait_for_result()
+            self._ac.get_result()
+    
+    def bumperLB_CB(self, bump):
+        if (bump.data):
+            bpr_id = 4
+            rospy.loginfo("Bumper %s Hit" % bpr_id)
+            goal = obstacle_avoidance.msg.bumperGoal(bumper_id=bpr_id)
+            self._ac.send_goal(goal)
+            self._ac.wait_for_result()
+            self._ac.get_result()
 
+    def bumperMB_CB(self, bump):
+        if (bump.data):
+            bpr_id = 5
+            rospy.loginfo("Bumper %s Hit" % bpr_id)
+            goal = obstacle_avoidance.msg.bumperGoal(bumper_id=bpr_id)
+            self._ac.send_goal(goal)
+            self._ac.wait_for_result()
+            self._ac.get_result()
 
+    def bumperRB_CB(self, bump):
+        if (bump.data):
+            bpr_id = 6
+            rospy.loginfo("Bumper %s Hit" % bpr_id)
+            goal = obstacle_avoidance.msg.bumperGoal(bumper_id=bpr_id)
+            self._ac.send_goal(goal)
+            self._ac.wait_for_result()
+            self._ac.get_result()
 
 
 if __name__ == '__main__':
