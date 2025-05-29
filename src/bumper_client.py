@@ -13,7 +13,7 @@ class bumperClient:
     
     def __init__(self):
 
-        self._ac = actionlib.SimpleActionClient('bumpers', obstacle_avoidance.msg.bumperAction)
+        self._ac = actionlib.SimpleActionClient('bumper_server', obstacle_avoidance.msg.bumperAction)
         self._ac.wait_for_server()
 
         # Subscribers:
