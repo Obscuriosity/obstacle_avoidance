@@ -37,6 +37,7 @@ class bumperServer(object):
         
         # print progress
         rospy.loginfo("bumper action started: %s" % goal)
+        rospy.loginfo(goal)
 
         #execute the action
         while moving:
@@ -46,9 +47,15 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            percent += 20
+            percent += 20 # half a second duration at 10Hz
             symudol = Twist()
+            # check which bumper triggered
+            if (goal == 'bumper_id: 1'):
+                rospy.loginfo("Front Left.")
+
+            # Assign speed based on bumper id
             symudol.angular.z = 0.4
+
             self.symud.publish(symudol)
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
