@@ -14,6 +14,8 @@ from geometry_msgs.msg import Twist
 
 class bumperServer(object):
     '''Node to manage bumper behaviour
+    subscribes via the client to bumper switches
+    publishes cmd_vel
     '''
     # create messages that are used to publish feedback/result
     _feedback = obstacle_avoidance.msg.bumperFeedback()
@@ -24,10 +26,11 @@ class bumperServer(object):
         self._as = actionlib.SimpleActionServer(self._action_name, obstacle_avoidance.msg.bumperAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
         rospy.loginfo("bumperServer class started")
+        self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 
     def execute_cb(self, goal):
         # helper variables
-        r = rospy.Rate(1)
+        r = rospy.Rate(10)
         success = True
         moving = True
         percent = 0
