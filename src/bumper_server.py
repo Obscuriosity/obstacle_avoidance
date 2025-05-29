@@ -52,35 +52,37 @@ class bumperServer(object):
             # check which bumper triggered
             if (goal.bumper_id == 1):
                 rospy.loginfo("Front Left.")
-                # Assign speed based on bumper id
                 symudol.angular.z = -0.4
+                symudol.linear.x = 0.0
 
             if (goal.bumper_id == 2):
                 rospy.loginfo("Front Midddle.")
-                # Assign speed based on bumper id
                 symudol.angular.z = -0.4
+                symudol.linear.x = 0.0
 
             if (goal.bumper_id == 3):
                 rospy.loginfo("Front Right.")
-                # Assign speed based on bumper id
                 symudol.angular.z = 0.4
+                symudol.linear.x = 0.0
 
             if (goal.bumper_id == 4):
                 rospy.loginfo("Back Left.")
-                # Assign speed based on bumper id
                 symudol.angular.z = 0.4
+                symudol.linear.x = 0.0
 
             if (goal.bumper_id == 5):
                 rospy.loginfo("Back Middle.")
-                # Assign speed based on bumper id
                 symudol.angular.z = 0.4
+                symudol.linear.x = 0.0
 
             if (goal.bumper_id == 6):
                 rospy.loginfo("Back Right.")
-                # Assign speed based on bumper id
                 symudol.angular.z = -0.4
+                symudol.linear.x = 0.0
 
+            # Publish cmd_vel/Twist
             self.symud.publish(symudol)
+
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
             if (percent >= 100):
