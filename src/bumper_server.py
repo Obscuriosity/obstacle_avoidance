@@ -50,7 +50,7 @@ class bumperServer(object):
             percent += 20 # half a second duration at 10Hz
             symudol = Twist()
             # check which bumper triggered
-            if (goal == 'bumper_id: 1'):
+            if (goal.bumper_id == 1):
                 rospy.loginfo("Front Left.")
 
             # Assign speed based on bumper id
