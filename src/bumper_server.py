@@ -43,7 +43,7 @@ class bumperServer(object):
                 self._as.set_preempted()
                 success = False
                 break
-            percent += 1
+            percent += 10
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
             if (percent == 100):
