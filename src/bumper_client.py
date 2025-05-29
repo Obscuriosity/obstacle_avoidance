@@ -34,7 +34,6 @@ class bumperClient:
             self._ac.send_goal(goal)
             self._ac.wait_for_result()
             self._ac.get_result()
-            #rospy.loginfo('Result: ', )
 
     def bumperMF_CB(self, bump):
         if (bump.data):
