@@ -61,6 +61,8 @@ class bumperServer(object):
             self._result.Done = True
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
+            symudol.angular.z = 0.0
+            self.symud.publish(symudol)
 
 
 if __name__ == '__main__':
