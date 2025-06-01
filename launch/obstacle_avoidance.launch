@@ -1,13 +1,10 @@
 
 <launch>
 
-    <!-- Start Base Controller launch file -->
-    <include file="$(find pfr_package)/launch/base_control.launch" />
-
     <!-- Start Bumper action server-->
     <node name="bumper_server" pkg="obstacle_avoidance" type="bumper_server.py" output="screen" />
 
-    <!-- Start Motion Controller-->
-    <node name="motion_controller" pkg="pfr_package" type="motion_controller.py" output="screen" />
+    <!-- Start Bumper action client -->
+    <node name="bumper_client" pkg="obstacle_avoidance" type="bumper_client.py" output="screen" />
     
 </launch>
