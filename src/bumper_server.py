@@ -27,6 +27,8 @@ class bumperServer(object):
         self._as.start()
         rospy.loginfo("bumperServer class started")
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+        self.bumping = False
+        self.bump = rospy.Publisher('Bump', Bool, queue_size=1)
 
     def execute_cb(self, goal):
         # helper variables
@@ -34,6 +36,10 @@ class bumperServer(object):
         success = True
         moving = True
         percent = 0
+        reverse = 0.99
+        rotate = 0.4
+        self.bumping = True
+
         
         # print progress
         rospy.loginfo("bumper action started: %s" % goal)
@@ -46,42 +52,58 @@ class bumperServer(object):
                 rospy.loginfo('%s: Preempted' % self._action_name)
                 self._as.set_preempted()
                 success = False
+                self.bumping = False
+                self.bump.publish(self.bumping)
                 break
-            percent += 20 # half a second duration at 10Hz
+            percent += 10 # half a second duration at 10Hz
             symudol = Twist()
             # check which bumper triggered
             if (goal.bumper_id == 1):
                 rospy.loginfo("Front Left.")
-                symudol.angular.z = -0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = -reverse
+                else:
+                    symudol.angular.z = -rotate
 
             if (goal.bumper_id == 2):
                 rospy.loginfo("Front Midddle.")
-                symudol.angular.z = -0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = -reverse
+                else:
+                    symudol.angular.z = -rotate
 
             if (goal.bumper_id == 3):
                 rospy.loginfo("Front Right.")
-                symudol.angular.z = 0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = -reverse
+                else:
+                    symudol.angular.z = rotate
 
             if (goal.bumper_id == 4):
                 rospy.loginfo("Back Left.")
-                symudol.angular.z = 0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = reverse
+                else:
+                    symudol.angular.z = rotate
 
             if (goal.bumper_id == 5):
                 rospy.loginfo("Back Middle.")
-                symudol.angular.z = 0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = reverse
+                else:
+                    symudol.angular.z = rotate
 
             if (goal.bumper_id == 6):
                 rospy.loginfo("Back Right.")
-                symudol.angular.z = -0.4
-                symudol.linear.x = 0.0
+                if (percent < 51):
+                    symudol.linear.x = reverse
+                else:
+                    symudol.angular.z = -rotate
 
             # Publish cmd_vel/Twist
             self.symud.publish(symudol)
+            # Publish Bump Bool
+            self.bump.publish(self.bumping)
 
             self._feedback.percent_complete = percent
             self._as.publish_feedback(self._feedback)
@@ -95,7 +117,11 @@ class bumperServer(object):
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
             symudol.angular.z = 0.0
+            symudol.linear.x = 0.0
             self.symud.publish(symudol)
+            self.bumping = False
+            self.bump.publish(self.bumping)
+            
 
 
 if __name__ == '__main__':
