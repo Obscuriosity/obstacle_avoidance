@@ -28,7 +28,7 @@ class bumperServer(object):
         rospy.loginfo("bumperServer class started")
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
         self.bumping = False
-        self.bump = rospy.Publisher('Bump', Bool, queue_size=1)
+        self.bump = rospy.Publisher('bump', Bool, queue_size=1)
 
     def execute_cb(self, goal):
         # helper variables
