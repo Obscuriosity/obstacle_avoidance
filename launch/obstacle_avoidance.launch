@@ -1,10 +1,13 @@
 
 <launch>
 
-    <!-- Start Bumper action server-->
-    <node name="bumper_server" pkg="obstacle_avoidance" type="bumper_server.py" output="screen" />
-
     <!-- Start Bumper action client -->
     <node name="bumper_client" pkg="obstacle_avoidance" type="bumper_client.py" output="screen" />
+
+    <!-- Start Bumper action server-->
+    <node name="bumper_server" pkg="obstacle_avoidance" type="bumper_server.py" output="screen" />
+    
+    <!-- Start Sonar node -->
+    <node name="Sonar_Node" pkg="obstacle_avoidance" type="sonar_node.py" output="screen" />
     
 </launch>
