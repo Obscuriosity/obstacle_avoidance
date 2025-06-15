@@ -21,11 +21,11 @@ class bumperServer(object):
     _feedback = obstacle_avoidance.msg.bumperFeedback()
     _result = obstacle_avoidance.msg.bumperResult()
 
-    def __init__(self, name):
-        self._action_name = name
+    def __init__(self):
+        self._action_name = 'bumpers' # this is the name required by the clients 
         self._as = actionlib.SimpleActionServer(self._action_name, obstacle_avoidance.msg.bumperAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
-        rospy.loginfo("bumperServer class started")
+        rospy.loginfo("bumperServer class started: %s", self._action_name)
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
         self.bumping = False
         self.bump = rospy.Publisher('bump', Bool, queue_size=1)
@@ -127,5 +127,5 @@ class bumperServer(object):
 if __name__ == '__main__':
     rospy.init_node('bumpers')
     rospy.loginfo("Bumper server starting")
-    bs = bumperServer(rospy.get_name())
+    bs = bumperServer()
     rospy.spin()

@@ -14,6 +14,7 @@ class bumperClient:
     def __init__(self):
 
         self._ac = actionlib.SimpleActionClient('bumpers', obstacle_avoidance.msg.bumperAction)
+        
         rospy.loginfo("bumperClient waiting for server")
         self._ac.wait_for_server()
         rospy.loginfo("bumperClient subscribing to bumper topics")
