@@ -59,8 +59,6 @@ class bumperServer(object):
                 self.bump.publish(self.bumping)
                 break
 
-            self.symudol_diwetha = self.symudol
-            rospy.loginfo(self.symudol_diwetha)
             percent += 10 # half a second duration at 10Hz
             # check which bumper triggered
             if (goal.bumper_id == 1):
@@ -117,8 +115,11 @@ class bumperServer(object):
             self._as.publish_feedback(self._feedback)
             if (percent >= 100):
                 moving = False
-            # for testing, remove later
             r.sleep()
+
+            self.symudol_diwetha = self.symudol
+            rospy.loginfo("Loop done, update Symudol_diwetha")
+            rospy.loginfo(self.symudol_diwetha)
 
         if success:
             self._result.Done = True
@@ -129,6 +130,7 @@ class bumperServer(object):
             self.symud.publish(self.symudol)
             self.bumping = False
             self.bump.publish(self.bumping)
+            self.symudol_diwetha = self.symudol
             
 
 
