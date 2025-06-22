@@ -60,21 +60,26 @@ class Sonar(object):
         
     # Methods
     def avoid(self):
+        # put this in a loop
         if (self.move):
             rospy.loginfo("Moving!")
+            # speed and rotation depend on sonar readings
+            # the closer the object the lower the speed and higher the rotation
+
+            # get distances - deal with zeros
 
 
 
-
-
-
-
-
+def main():
+    while not rospy.is_shutdown():
+        sn = Sonar()
+        sn.avoid()
+    # rospy.spin()
 
 
 if __name__ == '__main__':
     rospy.init_node('sonar_node')
     rospy.loginfo("Sonar node starting")
-    sn = Sonar()
-    sn.avoid()
-    rospy.spin()
+    #sn = Sonar()
+    #sn.avoid()
+    #rospy.spin()

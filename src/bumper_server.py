@@ -27,8 +27,10 @@ class bumperServer(object):
         self._as.start()
         rospy.loginfo("bumperServer class started: %s", self._action_name)
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+        self.symudol = Twist()
+        self.symudol_diwetha = 0
         self.bumping = False
-        self.bump = rospy.Publisher('bump', Bool, queue_size=1)
+        self.bump = rospy.Publisher('bump', Bool, latch=True, queue_size=1)
 
     def execute_cb(self, goal):
         # helper variables
@@ -47,6 +49,7 @@ class bumperServer(object):
 
         #execute the action
         while moving:
+
             # check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Preempted' % self._action_name)
@@ -55,53 +58,58 @@ class bumperServer(object):
                 self.bumping = False
                 self.bump.publish(self.bumping)
                 break
+
+            self.symudol_diwetha = self.symudol
+            rospy.loginfo(self.symudol_diwetha)
             percent += 10 # half a second duration at 10Hz
-            symudol = Twist()
             # check which bumper triggered
             if (goal.bumper_id == 1):
                 rospy.loginfo("Front Left.")
                 if (percent < 51):
-                    symudol.linear.x = -reverse
+                    self.symudol.linear.x = -reverse
                 else:
-                    symudol.angular.z = -rotate
+                    self.symudol.angular.z = -rotate
 
             if (goal.bumper_id == 2):
                 rospy.loginfo("Front Midddle.")
                 if (percent < 51):
-                    symudol.linear.x = -reverse
+                    self.symudol.linear.x = -reverse
                 else:
-                    symudol.angular.z = -rotate
+                    self.symudol.angular.z = -rotate
 
             if (goal.bumper_id == 3):
                 rospy.loginfo("Front Right.")
                 if (percent < 51):
-                    symudol.linear.x = -reverse
+                    self.symudol.linear.x = -reverse
                 else:
-                    symudol.angular.z = rotate
+                    self.symudol.angular.z = rotate
 
             if (goal.bumper_id == 4):
                 rospy.loginfo("Back Left.")
                 if (percent < 51):
-                    symudol.linear.x = reverse
+                    self.symudol.linear.x = reverse
                 else:
-                    symudol.angular.z = rotate
+                    self.symudol.angular.z = rotate
 
             if (goal.bumper_id == 5):
                 rospy.loginfo("Back Middle.")
                 if (percent < 51):
-                    symudol.linear.x = reverse
+                    self.symudol.linear.x = reverse
                 else:
-                    symudol.angular.z = rotate
+                    self.symudol.angular.z = rotate
 
             if (goal.bumper_id == 6):
                 rospy.loginfo("Back Right.")
                 if (percent < 51):
-                    symudol.linear.x = reverse
+                    self.symudol.linear.x = reverse
                 else:
-                    symudol.angular.z = -rotate
+                    self.symudol.angular.z = -rotate
 
             # Publish cmd_vel/Twist
-            self.symud.publish(symudol)
+            rospy.loginfo(self.symudol)
+            rospy.loginfo(self.symudol_diwetha)
+            if self.symudol != self.symudol_diwetha:
+                self.symud.publish(self.symudol)
             # Publish Bump Bool
             self.bump.publish(self.bumping)
 
@@ -116,9 +124,9 @@ class bumperServer(object):
             self._result.Done = True
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded(self._result)
-            symudol.angular.z = 0.0
-            symudol.linear.x = 0.0
-            self.symud.publish(symudol)
+            self.symudol.angular.z = 0.0
+            self.symudol.linear.x = 0.0
+            self.symud.publish(self.symudol)
             self.bumping = False
             self.bump.publish(self.bumping)
             
