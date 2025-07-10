@@ -28,7 +28,7 @@ class bumperServer(object):
         rospy.loginfo("bumperServer class started: %s", self._action_name)
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
         self.symudol = Twist()
-        self.symudol_diwetha = 0
+        self.symudol_diwetha = Twist()
         self.bumping = False
         self.bump = rospy.Publisher('bump', Bool, latch=True, queue_size=1)
 
@@ -55,6 +55,7 @@ class bumperServer(object):
                 rospy.loginfo('%s: Preempted' % self._action_name)
                 self._as.set_preempted()
                 success = False
+                moving = False
                 self.bumping = False
                 self.bump.publish(self.bumping)
                 break
@@ -104,9 +105,14 @@ class bumperServer(object):
                     self.symudol.angular.z = -rotate
 
             # Publish cmd_vel/Twist
-            rospy.loginfo(self.symudol)
-            rospy.loginfo(self.symudol_diwetha)
+            rospy.loginfo("Symudol: ")
+            rospy.loginfo(self.symudol.linear.x)
+            rospy.loginfo(self.symudol.angular.z)
+            rospy.loginfo("Symudol Diwetha: ")
+            rospy.loginfo(self.symudol_diwetha.linear.x)
+            rospy.loginfo(self.symudol_diwetha.angular.z)
             if self.symudol != self.symudol_diwetha:
+                rospy.loginfo("Publish CMD_VEL")
                 self.symud.publish(self.symudol)
             # Publish Bump Bool
             self.bump.publish(self.bumping)
@@ -115,11 +121,15 @@ class bumperServer(object):
             self._as.publish_feedback(self._feedback)
             if (percent >= 100):
                 moving = False
-            r.sleep()
+            #r.sleep()
 
             self.symudol_diwetha = self.symudol
             rospy.loginfo("Loop done, update Symudol_diwetha")
-            rospy.loginfo(self.symudol_diwetha)
+            rospy.loginfo("Symudol Diwetha: ")
+            rospy.loginfo(self.symudol_diwetha.linear.x)
+            rospy.loginfo(self.symudol_diwetha.angular.z)
+            rospy.loginfo("-")
+            r.sleep()
 
         if success:
             self._result.Done = True
