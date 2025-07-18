@@ -47,15 +47,19 @@ class Sonar(object):
     
     def snr_1_CB(self, distance):
         self.sonarL = distance.range
+        rospy.loginfo("Left sonar = ", self.sonarL)
     
     def snr_2_CB(self, distance):
         self.sonarLM = distance.range
+        rospy.loginfo("Left Middle sonar = ", self.sonarLM)
     
     def snr_3_CB(self, distance):
         self.sonarRM = distance.range
+        rospy.loginfo("Right Middle sonar = ", self.sonarRM)
     
     def snr_4_CB(self, distance):
         self.sonarR = distance.range
+        rospy.loginfo("Right sonar = ", self.sonarR)
 
         
     # Methods
