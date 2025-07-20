@@ -25,6 +25,7 @@ class Sonar:
         self.sonarRM = 0
         self.sonarR = 0
         self.symudol = Twist()
+        self.symudol_diwetha = Twist()
 
         # Subscribers
         # subscribe to bump state, only move when bump is false
@@ -34,6 +35,7 @@ class Sonar:
         rospy.Subscriber('snr_2', Range, self.snr_2_CB)
         rospy.Subscriber('snr_3', Range, self.snr_3_CB)
         rospy.Subscriber('snr_4', Range, self.snr_4_CB)
+        rospy.Subscriber('cmd_vel', Twist, self.cmd_vel_CB)
 
         # Publishers
         # publish cmd_vel for base controller
@@ -50,30 +52,48 @@ class Sonar:
     
     def snr_1_CB(self, distance):
         self.sonarL = distance.range
-        rospy.loginfo("Left sonar = %s", self.sonarL)
+        #rospy.loginfo("Left sonar = %s", self.sonarL)
     
     def snr_2_CB(self, distance):
         self.sonarLM = distance.range
-        rospy.loginfo("Left Middle sonar = %s", self.sonarLM)
+        #rospy.loginfo("Left Middle sonar = %s", self.sonarLM)
     
     def snr_3_CB(self, distance):
         self.sonarRM = distance.range
-        rospy.loginfo("Right Middle sonar = %s", self.sonarRM)
+        #rospy.loginfo("Right Middle sonar = %s", self.sonarRM)
     
     def snr_4_CB(self, distance):
         self.sonarR = distance.range
-        rospy.loginfo("Right sonar = %s", self.sonarR)
+        #rospy.loginfo("Right sonar = %s", self.sonarR)
+
+    def cmd_vel_CB(self, velocities):
+        self.symudol = velocities
 
         
     # Methods
     def avoid(self):
         # put this in a loop
-        if (self.move):
+        while (self.move):
+            #self.symudol = Twist()
             rospy.loginfo("Moving!")
+            self.symudol.linear.x = 0.75
+            self.symudol.angular.z = 0.0
+
             # speed and rotation depend on sonar readings
             # the closer the object the lower the speed and higher the rotation
 
             # get distances - deal with zeros
+
+            rospy.loginfo("Symudol: ")
+            rospy.loginfo(self.symudol.linear.x)
+            rospy.loginfo(self.symudol.angular.z)
+            rospy.loginfo("Symudol Diwetha: ")
+            rospy.loginfo(self.symudol_diwetha.linear.x)
+            rospy.loginfo(self.symudol_diwetha.angular.z)
+            if self.symudol != self.symudol_diwetha:
+                rospy.loginfo("Publish CMD_VEL")
+                self.symud.publish(self.symudol)
+            self.symudol_diwetha = self.symudol
 
 
 
@@ -87,6 +107,4 @@ def main():
 if __name__ == '__main__':
     rospy.init_node('sonar_node')
     rospy.loginfo("Sonar node starting")
-    #sn = Sonar()
-    #sn.avoid()
     main()
