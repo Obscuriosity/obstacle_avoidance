@@ -10,7 +10,7 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Range
 
-class Sonar(object):
+class Sonar:
 
     '''
     Sonar class for motion control and obstacle avoidance.
@@ -24,7 +24,7 @@ class Sonar(object):
         self.sonarLM = 0
         self.sonarRM = 0
         self.sonarR = 0
-        self.symydol = Twist()
+        self.symudol = Twist()
 
         # Subscribers
         # subscribe to bump state, only move when bump is false
@@ -39,6 +39,9 @@ class Sonar(object):
         # publish cmd_vel for base controller
         self.symud = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 
+        # log start
+        rospy.loginfo("Sonar node started")
+
     # Call Backs
     def bump_CB(self, bump):
         rospy.loginfo(bump.data)
@@ -47,19 +50,19 @@ class Sonar(object):
     
     def snr_1_CB(self, distance):
         self.sonarL = distance.range
-        rospy.loginfo("Left sonar = ", self.sonarL)
+        rospy.loginfo("Left sonar = %s", self.sonarL)
     
     def snr_2_CB(self, distance):
         self.sonarLM = distance.range
-        rospy.loginfo("Left Middle sonar = ", self.sonarLM)
+        rospy.loginfo("Left Middle sonar = %s", self.sonarLM)
     
     def snr_3_CB(self, distance):
         self.sonarRM = distance.range
-        rospy.loginfo("Right Middle sonar = ", self.sonarRM)
+        rospy.loginfo("Right Middle sonar = %s", self.sonarRM)
     
     def snr_4_CB(self, distance):
         self.sonarR = distance.range
-        rospy.loginfo("Right sonar = ", self.sonarR)
+        rospy.loginfo("Right sonar = %s", self.sonarR)
 
         
     # Methods
@@ -78,7 +81,7 @@ def main():
     while not rospy.is_shutdown():
         sn = Sonar()
         sn.avoid()
-    # rospy.spin()
+        rospy.spin()
 
 
 if __name__ == '__main__':
@@ -86,4 +89,4 @@ if __name__ == '__main__':
     rospy.loginfo("Sonar node starting")
     #sn = Sonar()
     #sn.avoid()
-    #rospy.spin()
+    main()
