@@ -73,7 +73,7 @@ class Sonar:
     # Methods
     def avoid(self):
         # put this in a loop
-        while (self.move):
+        while not rospy.is_shutdown():
             #self.symudol = Twist()
             rospy.loginfo("Moving!")
             self.symudol.linear.x = 0.75
@@ -94,17 +94,16 @@ class Sonar:
                 rospy.loginfo("Publish CMD_VEL")
                 self.symud.publish(self.symudol)
             self.symudol_diwetha = self.symudol
-
+        
 
 
 def main():
-    while not rospy.is_shutdown():
-        sn = Sonar()
-        sn.avoid()
-        rospy.spin()
+    sn.avoid()
+    rospy.spin()
 
 
 if __name__ == '__main__':
     rospy.init_node('sonar_node')
     rospy.loginfo("Sonar node starting")
+    sn = Sonar()
     main()
